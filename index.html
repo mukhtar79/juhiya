@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Birthday Surprise</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            font-family: 'Dancing Script', cursive;
+            color: white;
+            overflow-x: hidden;
+        }
+        .star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .scroll-container {
+            max-height: 80vh;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #880e4f #1a1a1a;
+        }
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(white, transparent);
+            animation: fall 5s linear infinite;
+        }
+        @keyframes fall {
+            0% { top: -10px; left: 50%; opacity: 1; }
+            100% { top: 100vh; left: calc(50% + 100px); opacity: 0; }
+        }
+        .bounce {
+            animation: bounceIn 1s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen relative">
+    <!-- Starfield Animation -->
+    <div id="stars"></div>
+
+    <!-- Meteor Shower on Load -->
+    <div id="meteors"></div>
+
+    <!-- Hero Section -->
+    <header class="text-center py-20 bounce">
+        <h1 class="text-7xl font-bold mb-6 text-white drop-shadow-lg">Happy Birthday to My Dream girl (juhi)</h1>
+        <p class="text-2xl mb-8">In a universe of stars, you're the brightest one shining just for me.</p>
+        <div class="flex justify-center mb-10">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0f8b807f-e7ab-4c7e-969a-bf06fd331cc8.png" alt="A shimmering night sky filled with countless twinkling stars, a glowing moon in the center, and a silhouette of a couple gazing upward from a grassy hill, evoking a sense of wonder and romance under the cosmos" class="rounded-full shadow-2xl border-4 border-white" />
+        </div>
+        <button onclick="playMusic()" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-full text-xl font-semibold shadow-lg hover:scale-105 transition-transform">Surprise Music</button>
+    </header>
+
+    <!-- Wishes Scroll -->
+    <main class="w-full max-w-4xl scroll-container px-6 py-10">
+        <section class="bg-black bg-opacity-30 p-10 rounded-lg shadow-xl mb-10">
+            <h2 class="text-4xl font-semibold mb-6 text-center">Wishes from the Heart</h2>
+            <ol class="space-y-4 text-lg leading-relaxed">
+                <li>1. On this special day, I wish you endless joy and laughter that echoes through the stars.</li>
+                <li>2. May all your dreams take flight like shooting stars across the night sky.</li>
+                <li>3. You're the constellation that guides me, my love. Happy Birthday!</li>
+                <li>4. Every kiss feels like a meteor exploding in wonder. Forever yours.</li>
+                <li>5. Let's count the stars together tonight, one for each memory we cherish.</li>
+                <li>6. You're the reason I believe in magic and miracles. Cheers to you!</li>
+                <li>7. In your eyes, I see the entire galaxy. Thanks for being my universe.</li>
+                <li>8. Wishing you a year filled with love, adventure, and sparkling moments.</li>
+                <li>9. You're a rare gem in the vast cosmos. Forever my favorite.</li>
+                <li>10. Happy Birthday! May your path be lit by stars and love always.</li>
+            </ol>
+        </section>
+
+        <!-- Interactive Constellation Maker -->
+        <section class="bg-black bg-opacity-30 p-10 rounded-lg shadow-xl mb-10">
+            <h2 class="text-4xl font-semibold mb-6 text-center">Star Map of Our Love</h2>
+            <p class="mb-4">Click on the canvas to create your own constellation!</p>
+            <canvas id="canvas" width="600" height="400" class="border border-white rounded-lg bg-transparent block mx-auto"></canvas>
+            <button onclick="clearCanvas()" class="bg-red-500 text-white px-6 py-3 rounded-full mt-4 hover:bg-red-600">Clear Stars</button>
+        </section>
+
+        <!-- Poem Section -->
+        <section class="bg-black bg-opacity-30 p-10 rounded-lg shadow-xl">
+            <h2 class="text-4xl font-semibold mb-6 text-center">A Poem for You</h2>
+            <blockquote class="text-xl italic text-center leading-relaxed">
+                "Amidst the stars that twinkle bright,<br>
+                Your smile is the perfect light.<br>
+                On this day of joy and cheer,<br>
+                Know my love for you is near.<br>
+                Happy Birthday, my guiding star,<br>
+                Forever, I'll love you from afar."
+            </blockquote>
+        </section>
+    </main>
+
+    <!-- Audio Element (Hidden) -->
+    <audio id="birthdayMusic" preload="none">
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Starfield
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('stars').appendChild(star);
+        }
+
+        // Meteors
+        for (let i = 0; i < 5; i++) {
+            const meteor = document.createElement('div');
+            meteor.className = 'meteor';
+            meteor.style.left = (Math.random() * 100 - 50) + '%';
+            meteor.style.animationDelay = Math.random() * 5 + 's';
+            meteor.style.animationDuration = (3 + Math.random() * 2) + 's';
+            document.getElementById('meteors').appendChild(meteor);
+        }
+
+        // Play Music
+        function playMusic() {
+            const audio = document.getElementById('birthdayMusic');
+            audio.play().catch(err => console.log('Audio play failed:', err));
+        }
+
+        // Constellation Canvas
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+
+        canvas.addEventListener('click', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            
+            // Draw lines to previous points (simple constellation)
+            if (points.length > 0) {
+                ctx.moveTo(points[points.length-1].x, points[points.length-1].y);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
+            points.push({x, y});
+        });
+
+        let points = [];
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            points = [];
+        }
+    </script>
+</body>
+</html>
+</content>
+</create_file>
